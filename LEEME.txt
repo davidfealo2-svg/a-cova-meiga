@@ -1,0 +1,33 @@
+A COVA MEIGA · LA NOCHE ENCANTADA
+=================================
+
+Qué incluye
+- Juego arcade original para móvil: cambia de carril, recoge ingredientes y esquiva murciélagos.
+- Puntuación, récord local, vidas, rangos, pausa, efectos sonoros y compartir resultado.
+- Presentación del local y navegación inferior.
+- PWA instalable en Android y caché offline después de la primera carga.
+- Sin anuncios, pagos, cuentas ni compras integradas.
+
+CÓMO PROBARLO
+1. Descomprime el ZIP.
+2. Sube la carpeta a un alojamiento HTTPS estático gratuito (por ejemplo GitHub Pages).
+   También puedes probarlo en ordenador con un servidor local; abrir index.html directamente
+   permite jugar, pero la instalación PWA requiere HTTPS o localhost.
+3. En Android abre la URL con Chrome.
+4. Menú ⋮ > «Instalar aplicación» o «Añadir a pantalla de inicio».
+5. Comparte la URL o el QR de esa URL con tus clientes.
+
+IMPORTANTE
+Este paquete es un juego web instalable (PWA), no un APK firmado. Es la vía gratuita más
+sencilla para distribuirlo directamente a clientes Android sin cuenta de desarrollador.
+Para publicarlo en Google Play o generar un APK/AAB se necesita empaquetarlo y firmarlo
+con herramientas Android; Google Play puede exigir una tarifa de cuenta de desarrollador.
+
+PERSONALIZACIÓN PENDIENTE DE DATOS REALES
+No se han inventado dirección, teléfono, horarios, carta, redes sociales ni promociones.
+El apartado «El local» invita a consultar los canales oficiales. Edita index.html para
+añadir los datos reales y enlaces oficiales antes de publicarlo.
+
+GRATUIDAD
+El código no incorpora servicios de pago ni rastreadores. GitHub Pages ofrece alojamiento
+estático gratuito sujeto a sus condiciones. El juego guarda el récord solo en el dispositivo.

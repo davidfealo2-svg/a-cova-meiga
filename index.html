@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#160d2b"><meta name="description" content="A Cova Meiga: una aventura mágica. Juega, consigue pociones y descubre el local.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+<title>A Cova Meiga · La noche encantada</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="stars"></div>
+<header><div class="brand"><span class="moon">☾</span><div><b>A COVA MEIGA</b><small>LA NOCHE ENCANTADA</small></div></div><button id="sound" class="iconbtn" aria-label="Sonido">♫</button></header>
+<main>
+<section id="home" class="screen active">
+<div class="hero">
+<div class="eyebrow">✦ UNA AVENTURA DE LEYENDA ✦</div>
+<h1>La noche<br><em>encantada</em></h1>
+<p>La luna ha despertado la magia. Guía a las brujas, recoge ingredientes y prepara la pócima más legendaria de A Cova Meiga.</p>
+<div class="witchart"><div class="orb orb1"></div><div class="orb orb2"></div><div class="witch">🧙‍♀️</div><div class="bat">🦇</div><div class="spark">✧</div></div>
+<button id="play" class="primary">JUGAR AHORA <span>✦</span></button>
+<div class="best">TU MEJOR PUNTUACIÓN <b id="bestHome">0</b></div>
+</div>
+<div class="feature-row"><div>🧪<b>Pociones</b><small>Combina magia</small></div><div>🌙<b>Desafíos</b><small>Supera tu récord</small></div><div>✨<b>Recompensas</b><small>Comparte tu hazaña</small></div></div>
+</section>
+<section id="game" class="screen">
+<div class="hud"><div>✨ <b id="score">0</b><small>PUNTOS</small></div><div>🧪 <b id="potions">0</b><small>INGREDIENTES</small></div><div>❤️ <b id="lives">3</b><small>VIDAS</small></div></div>
+<canvas id="board" width="390" height="620" aria-label="Juego de la bruja"></canvas>
+<div class="controls"><button id="left">◀</button><span>MUÉVETE Y RECOGE MAGIA</span><button id="right">▶</button></div>
+<button id="pause" class="pause">Ⅱ Pausa</button>
+</section>
+<section id="result" class="screen">
+<div class="result-card"><div class="result-icon">🏆</div><div class="eyebrow">LA NOCHE TE RECORDARÁ</div><h2 id="resultTitle">¡Hechizo completado!</h2><p>Has reunido <b id="finalScore">0</b> puntos y <b id="finalPotions">0</b> ingredientes mágicos.</p><div class="reward">✦ <span id="rank">APRENDIZ DE LA COVA</span> ✦</div><button id="again" class="primary">VOLVER A JUGAR</button><button id="share" class="secondary">COMPARTIR MI PUNTUACIÓN ↗</button><button id="homeBtn" class="textbtn">Volver al refugio</button></div>
+</section>
+<section id="about" class="screen">
+<div class="about-card"><div class="eyebrow">✦ TU REFUGIO MÁGICO ✦</div><h2>A Cova <em>Meiga</em></h2><p>Cuando cae la noche, las leyendas cobran vida. Ven a descubrir el ambiente, brindar con tu gente y formar parte de la magia.</p><div class="drink">🍹 <span>BUEN AMBIENTE · COPAS · MAGIA</span> 🪄</div><p class="muted">Este juego es una invitación a conocer A Cova Meiga. Consulta las redes sociales o los canales oficiales del local para conocer horarios, ubicación y novedades.</p><button id="back" class="primary">SEGUIR JUGANDO</button></div>
+</section>
+</main>
+<nav><button data-go="home" class="selected">⌂<small>Inicio</small></button><button data-go="game">✧<small>Jugar</small></button><button data-go="about">☽<small>El local</small></button></nav>
+<div id="toast" role="status"></div><script src="game.js"></script>
+</body></html>

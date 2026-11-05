@@ -1,0 +1,17 @@
+{
+  "name": "A Cova Meiga · La noche encantada",
+  "short_name": "A Cova Meiga",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#120b22",
+  "theme_color": "#160d2b",
+  "description": "Una aventura mágica para A Cova Meiga",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
