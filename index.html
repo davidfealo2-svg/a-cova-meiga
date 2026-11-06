@@ -1,107 +1,227 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#100d20">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#160d2d">
 <title>A Cova Meiga - La noche encantada</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#100d20;color:#fff;font-family:Georgia,serif;text-align:center}
-#game{width:100%;max-width:480px;height:100dvh;min-height:600px;margin:auto;position:relative;overflow:hidden;background:linear-gradient(#171333,#26304a 55%,#10251f)}
-canvas{width:100%;height:100%;display:block;touch-action:none}
-.panel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px;background:linear-gradient(#100d20dd,#100d20bb)}
-h1{font-size:clamp(35px,10vw, fifty);font-size:clamp(35px,10vw,50px);color:#f7d88b;text-shadow:0 0 18px #a76aff;margin:8px}
-p{font-size:17px;line-height:1.5;max-width:330px}
-button{border:0;border-radius:30px;padding:15px 25px;margin:8px;background:linear-gradient(135deg,#f4d27c,#d78a42);color:#27162b;font-size:17px;font-weight:bold;box-shadow:0 5px 18px #0008}
+body{margin:0;background:#100a20;color:#fff;font-family:Georgia,serif;text-align:center}
+header{padding:15px 8px;background:linear-gradient(120deg,#180c35,#40205d,#172c43)}
+h1{margin:5px;color:#ffe6a1;font-size:clamp(25px,7vw,40px);text-shadow:0 0 15px #e6aaff}
+header p{margin:5px;color:#e6d5ff}
+main{max-width:760px;margin:auto;padding:12px}
+.panel{background:#211638;border:1px solid #9970bd;border-radius:16px;padding:13px;margin:10px 0;box-shadow:0 0 18px #6c398b55}
+button{border:1px solid #ffe1a0;border-radius:12px;padding:12px 16px;margin:5px;background:linear-gradient(#8050a5,#492766);color:white;font-size:16px;font-weight:bold}
 button:active{transform:scale(.96)}
-.small{font-size:13px;color:#d9cce9}
-#hud{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;font-size:17px;text-shadow:0 2px 5px #000}
-#controls{position:absolute;bottom:18px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;pointer-events:none}
-.pad{display:flex;gap:10px;pointer-events:auto}
-.control{width: sixty; width:60px;height:60px;border-radius:50%;padding:0;background:#ffffff30;color:white;border:2px solid #ffffff80;font-size:25px;touch-action:none}
-#magic{background:#a65ceccc}
+button:disabled{opacity:.4}
+#game{width:100%;height:auto;display:block;background:#101b30;border:2px solid #bd91d9;border-radius:12px;touch-action:none}
+.stats{display:flex;justify-content:space-around;gap:5px;flex-wrap:wrap;color:#ffe5a0;font-size:15px}
+#message{min-height:28px;color:#ffe7a7;margin:8px}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);max-width:290px;margin:10px auto}
+.controls button{font-size:23px;padding:12px}
+.small{font-size:13px;color:#cbb8df}
 .hidden{display:none!important}
+footer{padding:20px;color:#bba8ce}
 </style>
 </head>
 <body>
-<div id="game">
-<canvas id="c"></canvas>
-<div id="hud"><span id="score">✨ 0</span><span id="lives">❤️ 3</span><span id="level">Nivel 1</span></div>
-<div id="intro" class="panel">
-<div style="font-size:65px">🧙‍♀️🌙</div>
-<h1>A Cova Meiga</h1>
-<h2 style="color:#e6b9ff;margin:0">La noche encantada</h2>
-<p>La magia del bosque se está apagando. Recoge los cristales encantados, esquiva a las criaturas y devuelve la luz a la noche.</p>
-<button id="start">✨ ENTRAR EN EL BOSQUE ✨</button>
-<button id="sound">🔊 Activar sonido</button>
-<p class="small">Muévete con los botones y usa tu hechizo para protegerte.</p>
+<header>
+<h1>🌙 A COVA MEIGA 🧙‍♀️</h1>
+<p>La noche encantada · Una aventura mágica</p>
+</header>
+<main>
+<section id="intro" class="panel">
+<h2>✨ El secreto de la cueva ✨</h2>
+<p>La oscuridad ha robado la luz de los cinco reinos mágicos. La Meiga debe recuperar los cristales encantados, vencer a los guardianes y devolver la magia a A Cova Meiga.</p>
+<p>Recoge gemas 💎, evita fantasmas 👻 y encuentra la salida 🌟.</p>
+<button onclick="startGame()">COMENZAR AVENTURA</button>
+<button onclick="musicToggle()">🎵 Activar música</button>
+<p class="small">Tu progreso se guarda en este dispositivo.</p>
+</section>
+
+<section class="panel">
+<div class="stats">
+<span>💎 <b id="score">0</b></span>
+<span>❤️ <b id="lives">3</b></span>
+<span>🌟 Nivel <b id="level">1</b>/20</span>
+<span>🪄 <b id="spells">3</b></span>
 </div>
-<div id="over" class="panel hidden">
-<div style="font-size:60px">🌟</div>
-<h1>¡Fin de la aventura!</h1>
-<p id="final"></p>
-<button id="again">VOLVER A JUGAR</button>
+<div id="message">Pulsa «Comenzar aventura» para jugar.</div>
+<canvas id="game" width="600" height="390"></canvas>
+<div class="controls">
+<span></span><button onpointerdown="move(0,-1)">⬆️</button><span></span>
+<button onpointerdown="move(-1,0)">⬅️</button>
+<button onclick="castSpell()">🪄</button>
+<button onpointerdown="move(1,0)">➡️</button>
+<span></span><button onpointerdown="move(0,1)">⬇️</button><span></span>
 </div>
-<div id="controls">
-<div class="pad">
-<button class="control" id="left">◀</button>
-<button class="control" id="right">▶</button>
-</div>
-<div class="pad">
-<button class="control" id="magic">✦</button>
-</div>
-</div>
-</div>
+<button onclick="pauseGame()">⏸ Pausa</button>
+<button onclick="musicToggle()">🎵 Música</button>
+<button onclick="castSpell()">✨ Hechizo</button>
+</section>
+
+<section class="panel">
+<h3>📜 Tu leyenda</h3>
+<p id="world">Bosque de las Sombras</p>
+<p>Mejor puntuación: <b id="best">0</b> 💎</p>
+<p class="small">Cada reino guarda secretos. ¡Completa los 20 niveles para recuperar toda la magia!</p>
+</section>
+
+<section class="panel">
+<h3>🏡 A Cova Meiga</h3>
+<p>La magia también vive en los lugares especiales de nuestra tierra. Descubre, disfruta y apoya los negocios locales.</p>
+<p>✨ Gracias por formar parte de esta aventura.</p>
+</section>
+</main>
+<footer>Hecho con magia para A Cova Meiga ✨</footer>
+
 <script>
-const canvas=document.getElementById("c"),ctx=canvas.getContext("2d");
-const intro=document.getElementById("intro"),over=document.getElementById("over");
-let W=400,H=700,player,items,enemies,score,lives,level,running=false,keys={},sound=true,audio;
-let best=Number(localStorage.getItem("covameigaBest")||0);
-function resize(){let r=canvas.getBoundingClientRect();canvas.width=r.width*devicePixelRatio;canvas.height=r.height*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);W=r.width;H=r.height}
-window.addEventListener("resize",resize);resize();
-function tone(f=440,d=.1){if(!sound)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();let o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.frequency.value=f;g.gain.value=.07;o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.stop(audio.currentTime+d)}catch(e){}}
-function start(){score=0;lives=3;level=1;player={x:W/2,y:H*.72,r:17};items=[];enemies=[];for(let i=0;i<7;i++)spawnItem();for(let i=0;i<3;i++)spawnEnemy();running=true;intro.classList.add("hidden");over.classList.add("hidden");tone(660);updateHud();requestAnimationFrame(loop)}
-function spawnItem(){items.push({x:25+Math.random()*(W-50),y:-20-Math.random()*H*.6,r:10,s:1.5+Math.random()*1.4})}
-function spawnEnemy(){enemies.push({x:25+Math.random()*(W-50),y:-40-Math.random()*H*.5,r:15,s:1.4+Math.random()*level*.35})}
-function updateHud(){document.getElementById("score").textContent="✨ "+score;document.getElementById("lives").textContent="❤️ "+lives;document.getElementById("level").textContent="Nivel "+level}
-function background(){
-ctx.fillStyle="#11152b";ctx.fillRect(0,0,W,H);
-let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#171333");g.addColorStop(1,"#17372d");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-ctx.fillStyle="#f7e9b4";ctx.beginPath();ctx.arc(W*.78,H*.14,32,0,Math.PI*2);ctx.fill();
-ctx.fillStyle="#171333";ctx.beginPath();ctx.arc(W*.8,H*.12,29,0,Math.PI*2);ctx.fill();
-for(let i=0;i<18;i++){let x=(i*97)%W,y=(i*137)%(H*.75);ctx.fillStyle=i%2?"#f7d98a":"#c4a6ff";ctx.globalAlpha=.6;ctx.fillRect(x,y,2,2)}ctx.globalAlpha=1;
-for(let i=0;i<9;i++){let x=i*W/8;ctx.fillStyle="#10251f";ctx.beginPath();ctx.moveTo(x-35,H);ctx.lineTo(x,H*.35+(i%3)*30);ctx.lineTo(x+35,H);ctx.fill();ctx.fillStyle="#214432";ctx.beginPath();ctx.arc(x,H*.48+(i%3)*25,24,0,7);ctx.fill()}
+const canvas=document.getElementById("game"),ctx=canvas.getContext("2d");
+const tile=30,cols=20,rows=13;
+let player={x:1,y:1},gems=[],ghosts=[],exit={x:18,y:11};
+let score=0,lives=3,level=1,spells=3,playing=false,paused=false;
+let best=Number(localStorage.getItem("covaBest")||0);
+let worldNames=["Bosque de las Sombras","Pantano de las Hadas","Montaña del Dragón","Castillo Encantado","La Cueva Final"];
+let worldColors=["#142b35","#193a37","#38283e","#302044","#18203d"];
+let musicOn=false,audio=null,musicTimer=null,note=0;
+document.getElementById("best").textContent=best;
+
+function update(){
+ document.getElementById("score").textContent=score;
+ document.getElementById("lives").textContent=lives;
+ document.getElementById("level").textContent=level;
+ document.getElementById("spells").textContent=spells;
+ document.getElementById("world").textContent=worldNames[Math.min(4,Math.floor((level-1)/4))];
+ document.getElementById("best").textContent=best;
 }
-function drawPlayer(){ctx.font="35px serif";ctx.textAlign="center";ctx.fillText("🧙‍♀️",player.x,player.y+12);ctx.font="17px serif";ctx.fillText("✨",player.x+17,player.y-19)}
+function message(t){document.getElementById("message").textContent=t}
+function startGame(){
+ score=0;lives=3;level=1;spells=3;playing=true;paused=false;
+ makeLevel();musicStart();update();message("¡La aventura comienza! Recoge las gemas 💎");
+}
+function makeLevel(){
+ player={x:1,y:1};
+ gems=[];ghosts=[];
+ let count=5+level;
+ for(let i=0;i<count;i++){
+  let x=2+Math.floor(Math.random()*16),y=1+Math.floor(Math.random()*11);
+  if(x!==player.x||y!==player.y)gems.push({x,y});
+ }
+ let n=Math.min(2+Math.floor(level/2),7);
+ for(let i=0;i<n;i++)ghosts.push({x:3+Math.floor(Math.random()*14),y:2+Math.floor(Math.random()*9});
+ exit={x:18,y:11};
+ draw();update();
+}
 function draw(){
-background();
-items.forEach(a=>{ctx.font="24px serif";ctx.textAlign="center";ctx.fillText("💎",a.x,a.y)});
-enemies.forEach(a=>{ctx.font="27px serif";ctx.textAlign="center";ctx.fillText("👻",a.x,a.y+8)});
-drawPlayer();
+ let world=Math.min(4,Math.floor((level-1)/4));
+ ctx.fillStyle=worldColors[world];ctx.fillRect(0,0,600,390);
+ for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+  ctx.fillStyle=(x+y)%2?"#ffffff08":"#00000010";
+  ctx.fillRect(x*tile,y*tile,tile,tile);
+ }
+ ctx.font="25px serif";ctx.textAlign="center";ctx.textBaseline="middle";
+ ctx.fillText("🌟",exit.x*tile+15,exit.y*tile+15);
+ gems.forEach(g=>ctx.fillText("💎",g.x*tile+15,g.y*tile+15));
+ ghosts.forEach(g=>ctx.fillText("👻",g.x*tile+15,g.y*tile+15));
+ ctx.font="26px serif";ctx.fillText("🧙‍♀️",player.x*tile+15,player.y*tile+15);
+ if(!playing||paused){
+  ctx.fillStyle="#000b";ctx.fillRect(0,0,600,390);
+  ctx.fillStyle="#ffe5a0";ctx.font="bold 30px Georgia";
+  ctx.fillText(paused?"AVENTURA EN PAUSA": "A COVA MEIGA",300,180);
+ }
 }
-function loop(){
-if(!running)return;
-let speed=4.2;
-if(keys.left)player.x-=speed;if(keys.right)player.x+=speed;
-player.x=Math.max(20,Math.min(W-20,player.x));
-items.forEach(a=>a.y+=a.s);enemies.forEach(a=>a.y+=a.s);
-items=items.filter(a=>{if(Math.hypot(a.x-player.x,a.y-player.y)<28){score+=10;tone(740,.08);spawnItem();if(score>=level*100){level++;tone(900,.2);spawnEnemy()}updateHud();return false}if(a.y>H+20){spawnItem();return false}return true});
-enemies=enemies.filter(a=>{if(Math.hypot(a.x-player.x,a.y-player.y)<29){lives--;tone(130,.2);updateHud();if(lives<=0){finish();return false}return false}if(a.y>H+20){spawnEnemy();return false}return true});
-draw();requestAnimationFrame(loop);
+function move(dx,dy){
+ if(!playing||paused)return;
+ let nx=Math.max(0,Math.min(cols-1,player.x+dx));
+ let ny=Math.max(0,Math.min(rows-1,player.y+dy));
+ player.x=nx;player.y=ny;
+ let gi=gems.findIndex(g=>g.x===nx&&g.y===ny);
+ if(gi>=0){gems.splice(gi,1);score+=10;sound(660);message("¡Gema mágica conseguida! 💎");}
+ let hit=ghosts.find(g=>g.x===nx&&g.y===ny);
+ if(hit){lives--;player.x=1;player.y=1;sound(130);message("¡Un fantasma te ha alcanzado!");}
+ if(nx===exit.x&&ny===exit.y){
+  if(gems.length===0){nextLevel();return;}
+  message("¡Aún quedan "+gems.length+" gemas por recoger!");
+ }
+ if(lives<=0){gameOver();return;}
+ moveGhosts();draw();update();
 }
-function finish(){running=false;best=Math.max(best,score);localStorage.setItem("covameigaBest",best);document.getElementById("final").textContent="Has conseguido "+score+" puntos. Tu récord es "+best+" puntos. ¡La magia te espera de nuevo!";over.classList.remove("hidden");tone(180,.4)}
-function spell(){if(!running)return;tone(950,.15);enemies=enemies.filter(a=>Math.hypot(a.x-player.x,a.y-player.y)>150)}
-document.getElementById("start").onclick=start;
-document.getElementById("again").onclick=start;
-document.getElementById("sound").onclick=()=>{sound=!sound;document.getElementById("sound").textContent=sound?"🔊 Sonido activado":"🔇 Sonido desactivado";tone(600)};
-document.getElementById("magic").addEventListener("pointerdown",e=>{e.preventDefault();spell()});
-function bind(id,key){let b=document.getElementById(id);b.addEventListener("pointerdown",e=>{e.preventDefault();keys[key]=true});["pointerup","pointerleave","pointercancel"].forEach(ev=>b.addEventListener(ev,()=>keys[key]=false))}
-bind("left","left");bind("right","right");
-window.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="a")keys.left=true;if(e.key==="ArrowRight"||e.key==="d")keys.right=true;if(e.code==="Space")spell()});
-window.addEventListener("keyup",e=>{if(e.key==="ArrowLeft"||e.key==="a")keys.left=false;if(e.key==="ArrowRight"||e.key==="d")keys.right=false});
-draw();
+function moveGhosts(){
+ ghosts.forEach(g=>{
+  if(Math.random()<.75){
+   let dx=Math.sign(player.x-g.x),dy=Math.sign(player.y-g.y);
+   if(Math.random()<.5)g.x=Math.max(0,Math.min(19,g.x+dx));
+   else g.y=Math.max(0,Math.min(12,g.y+dy));
+  }
+  if(g.x===player.x&&g.y===player.y){
+   lives--;player.x=1;player.y=1;
+   message("¡Cuidado! Un fantasma te ha atrapado.");
+  }
+ });
+}
+function castSpell(){
+ if(!playing||paused||spells<=0)return;
+ spells--;let before=ghosts.length;
+ ghosts=ghosts.filter(g=>Math.abs(g.x-player.x)+Math.abs(g.y-player.y)>4);
+ score+=(before-ghosts.length)*15;
+ sound(880);message("✨ ¡Hechizo mágico! Los fantasmas huyen.");
+ draw();update();
+}
+function nextLevel(){
+ score+=50+level*5;sound(990);
+ if(level>=20){playing=false;message("¡HAS SALVADO LOS CINCO REINOS! Eres la gran Meiga. 🏆");}
+ else{level++;if(level%4===1)spells+=2;makeLevel();message("¡Nivel superado! Bienvenida al siguiente reino.");}
+ if(score>best){best=score;localStorage.setItem("covaBest",best);}
+ update();draw();
+}
+function gameOver(){
+ playing=false;
+ if(score>best){best=score;localStorage.setItem("covaBest",best);}
+ message("La magia se ha apagado... Pulsa Comenzar para intentarlo de nuevo.");
+ draw();update();
+}
+function pauseGame(){if(!playing)return;paused=!paused;draw();message(paused?"Pausa. Pulsa Pausa para continuar.":"¡Seguimos la aventura!");}
+document.addEventListener("keydown",e=>{
+ if(e.key==="ArrowUp"||e.key==="w")move(0,-1);
+ if(e.key==="ArrowDown"||e.key==="s")move(0,1);
+ if(e.key==="ArrowLeft"||e.key==="a")move(-1,0);
+ if(e.key==="ArrowRight"||e.key==="d")move(1,0);
+ if(e.code==="Space")castSpell();
+});
+function sound(freq){
+ try{
+  audio=audio||new(window.AudioContext||window.webkitAudioContext)();
+  let o=audio.createOscillator(),v=audio.createGain();
+  o.type="sine";o.frequency.value=freq;
+  v.gain.setValueAtTime(.12,audio.currentTime);
+  v.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.22);
+  o.connect(v);v.connect(audio.destination);o.start();o.stop(audio.currentTime+.23);
+ }catch(e){}
+}
+function musicStart(){
+ try{
+  audio=audio||new(window.AudioContext||window.webkitAudioContext)();
+  audio.resume();musicOn=true;
+  clearInterval(musicTimer);
+  const melody=[392,494,587,494,440,523,659,523,392,494,587,784,659,587,494,440];
+  musicTimer=setInterval(()=>{
+   if(!musicOn||!audio)return;
+   let o=audio.createOscillator(),v=audio.createGain();
+   o.type="sine";o.frequency.value=melody[note%melody.length];
+   v.gain.setValueAtTime(.035,audio.currentTime);
+   v.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.38);
+   o.connect(v);v.connect(audio.destination);o.start();o.stop(audio.currentTime+.4);
+   note++;
+  },420);
+ }catch(e){message("Tu navegador no permite activar el sonido.");}
+}
+function musicToggle(){
+ if(musicOn){musicOn=false;clearInterval(musicTimer);message("Música apagada.");}
+ else{musicStart();message("🎵 ¡La melodía mágica comienza!");}
+}
+draw();update();
 </script>
 </body>
 </html>
