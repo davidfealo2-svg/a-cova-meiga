@@ -1,39 +1,107 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#160d2b"><meta name="description" content="A Cova Meiga: una aventura mágica. Juega, consigue pociones y descubre el local.">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
-<title>A Cova Meiga · La noche encantada</title><link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#100d20">
+<title>A Cova Meiga - La noche encantada</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#100d20;color:#fff;font-family:Georgia,serif;text-align:center}
+#game{width:100%;max-width:480px;height:100dvh;min-height:600px;margin:auto;position:relative;overflow:hidden;background:linear-gradient(#171333,#26304a 55%,#10251f)}
+canvas{width:100%;height:100%;display:block;touch-action:none}
+.panel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px;background:linear-gradient(#100d20dd,#100d20bb)}
+h1{font-size:clamp(35px,10vw, fifty);font-size:clamp(35px,10vw,50px);color:#f7d88b;text-shadow:0 0 18px #a76aff;margin:8px}
+p{font-size:17px;line-height:1.5;max-width:330px}
+button{border:0;border-radius:30px;padding:15px 25px;margin:8px;background:linear-gradient(135deg,#f4d27c,#d78a42);color:#27162b;font-size:17px;font-weight:bold;box-shadow:0 5px 18px #0008}
+button:active{transform:scale(.96)}
+.small{font-size:13px;color:#d9cce9}
+#hud{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;font-size:17px;text-shadow:0 2px 5px #000}
+#controls{position:absolute;bottom:18px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;pointer-events:none}
+.pad{display:flex;gap:10px;pointer-events:auto}
+.control{width: sixty; width:60px;height:60px;border-radius:50%;padding:0;background:#ffffff30;color:white;border:2px solid #ffffff80;font-size:25px;touch-action:none}
+#magic{background:#a65ceccc}
+.hidden{display:none!important}
+</style>
 </head>
 <body>
-<div class="stars"></div>
-<header><div class="brand"><span class="moon">☾</span><div><b>A COVA MEIGA</b><small>LA NOCHE ENCANTADA</small></div></div><button id="sound" class="iconbtn" aria-label="Sonido">♫</button></header>
-<main>
-<section id="home" class="screen active">
-<div class="hero">
-<div class="eyebrow">✦ UNA AVENTURA DE LEYENDA ✦</div>
-<h1>La noche<br><em>encantada</em></h1>
-<p>La luna ha despertado la magia. Guía a las brujas, recoge ingredientes y prepara la pócima más legendaria de A Cova Meiga.</p>
-<div class="witchart"><div class="orb orb1"></div><div class="orb orb2"></div><div class="witch">🧙‍♀️</div><div class="bat">🦇</div><div class="spark">✧</div></div>
-<button id="play" class="primary">JUGAR AHORA <span>✦</span></button>
-<div class="best">TU MEJOR PUNTUACIÓN <b id="bestHome">0</b></div>
+<div id="game">
+<canvas id="c"></canvas>
+<div id="hud"><span id="score">✨ 0</span><span id="lives">❤️ 3</span><span id="level">Nivel 1</span></div>
+<div id="intro" class="panel">
+<div style="font-size:65px">🧙‍♀️🌙</div>
+<h1>A Cova Meiga</h1>
+<h2 style="color:#e6b9ff;margin:0">La noche encantada</h2>
+<p>La magia del bosque se está apagando. Recoge los cristales encantados, esquiva a las criaturas y devuelve la luz a la noche.</p>
+<button id="start">✨ ENTRAR EN EL BOSQUE ✨</button>
+<button id="sound">🔊 Activar sonido</button>
+<p class="small">Muévete con los botones y usa tu hechizo para protegerte.</p>
 </div>
-<div class="feature-row"><div>🧪<b>Pociones</b><small>Combina magia</small></div><div>🌙<b>Desafíos</b><small>Supera tu récord</small></div><div>✨<b>Recompensas</b><small>Comparte tu hazaña</small></div></div>
-</section>
-<section id="game" class="screen">
-<div class="hud"><div>✨ <b id="score">0</b><small>PUNTOS</small></div><div>🧪 <b id="potions">0</b><small>INGREDIENTES</small></div><div>❤️ <b id="lives">3</b><small>VIDAS</small></div></div>
-<canvas id="board" width="390" height="620" aria-label="Juego de la bruja"></canvas>
-<div class="controls"><button id="left">◀</button><span>MUÉVETE Y RECOGE MAGIA</span><button id="right">▶</button></div>
-<button id="pause" class="pause">Ⅱ Pausa</button>
-</section>
-<section id="result" class="screen">
-<div class="result-card"><div class="result-icon">🏆</div><div class="eyebrow">LA NOCHE TE RECORDARÁ</div><h2 id="resultTitle">¡Hechizo completado!</h2><p>Has reunido <b id="finalScore">0</b> puntos y <b id="finalPotions">0</b> ingredientes mágicos.</p><div class="reward">✦ <span id="rank">APRENDIZ DE LA COVA</span> ✦</div><button id="again" class="primary">VOLVER A JUGAR</button><button id="share" class="secondary">COMPARTIR MI PUNTUACIÓN ↗</button><button id="homeBtn" class="textbtn">Volver al refugio</button></div>
-</section>
-<section id="about" class="screen">
-<div class="about-card"><div class="eyebrow">✦ TU REFUGIO MÁGICO ✦</div><h2>A Cova <em>Meiga</em></h2><p>Cuando cae la noche, las leyendas cobran vida. Ven a descubrir el ambiente, brindar con tu gente y formar parte de la magia.</p><div class="drink">🍹 <span>BUEN AMBIENTE · COPAS · MAGIA</span> 🪄</div><p class="muted">Este juego es una invitación a conocer A Cova Meiga. Consulta las redes sociales o los canales oficiales del local para conocer horarios, ubicación y novedades.</p><button id="back" class="primary">SEGUIR JUGANDO</button></div>
-</section>
-</main>
-<nav><button data-go="home" class="selected">⌂<small>Inicio</small></button><button data-go="game">✧<small>Jugar</small></button><button data-go="about">☽<small>El local</small></button></nav>
-<div id="toast" role="status"></div><script src="game.js"></script>
-</body></html>
+<div id="over" class="panel hidden">
+<div style="font-size:60px">🌟</div>
+<h1>¡Fin de la aventura!</h1>
+<p id="final"></p>
+<button id="again">VOLVER A JUGAR</button>
+</div>
+<div id="controls">
+<div class="pad">
+<button class="control" id="left">◀</button>
+<button class="control" id="right">▶</button>
+</div>
+<div class="pad">
+<button class="control" id="magic">✦</button>
+</div>
+</div>
+</div>
+<script>
+const canvas=document.getElementById("c"),ctx=canvas.getContext("2d");
+const intro=document.getElementById("intro"),over=document.getElementById("over");
+let W=400,H=700,player,items,enemies,score,lives,level,running=false,keys={},sound=true,audio;
+let best=Number(localStorage.getItem("covameigaBest")||0);
+function resize(){let r=canvas.getBoundingClientRect();canvas.width=r.width*devicePixelRatio;canvas.height=r.height*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);W=r.width;H=r.height}
+window.addEventListener("resize",resize);resize();
+function tone(f=440,d=.1){if(!sound)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();let o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.frequency.value=f;g.gain.value=.07;o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.stop(audio.currentTime+d)}catch(e){}}
+function start(){score=0;lives=3;level=1;player={x:W/2,y:H*.72,r:17};items=[];enemies=[];for(let i=0;i<7;i++)spawnItem();for(let i=0;i<3;i++)spawnEnemy();running=true;intro.classList.add("hidden");over.classList.add("hidden");tone(660);updateHud();requestAnimationFrame(loop)}
+function spawnItem(){items.push({x:25+Math.random()*(W-50),y:-20-Math.random()*H*.6,r:10,s:1.5+Math.random()*1.4})}
+function spawnEnemy(){enemies.push({x:25+Math.random()*(W-50),y:-40-Math.random()*H*.5,r:15,s:1.4+Math.random()*level*.35})}
+function updateHud(){document.getElementById("score").textContent="✨ "+score;document.getElementById("lives").textContent="❤️ "+lives;document.getElementById("level").textContent="Nivel "+level}
+function background(){
+ctx.fillStyle="#11152b";ctx.fillRect(0,0,W,H);
+let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#171333");g.addColorStop(1,"#17372d");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ctx.fillStyle="#f7e9b4";ctx.beginPath();ctx.arc(W*.78,H*.14,32,0,Math.PI*2);ctx.fill();
+ctx.fillStyle="#171333";ctx.beginPath();ctx.arc(W*.8,H*.12,29,0,Math.PI*2);ctx.fill();
+for(let i=0;i<18;i++){let x=(i*97)%W,y=(i*137)%(H*.75);ctx.fillStyle=i%2?"#f7d98a":"#c4a6ff";ctx.globalAlpha=.6;ctx.fillRect(x,y,2,2)}ctx.globalAlpha=1;
+for(let i=0;i<9;i++){let x=i*W/8;ctx.fillStyle="#10251f";ctx.beginPath();ctx.moveTo(x-35,H);ctx.lineTo(x,H*.35+(i%3)*30);ctx.lineTo(x+35,H);ctx.fill();ctx.fillStyle="#214432";ctx.beginPath();ctx.arc(x,H*.48+(i%3)*25,24,0,7);ctx.fill()}
+}
+function drawPlayer(){ctx.font="35px serif";ctx.textAlign="center";ctx.fillText("🧙‍♀️",player.x,player.y+12);ctx.font="17px serif";ctx.fillText("✨",player.x+17,player.y-19)}
+function draw(){
+background();
+items.forEach(a=>{ctx.font="24px serif";ctx.textAlign="center";ctx.fillText("💎",a.x,a.y)});
+enemies.forEach(a=>{ctx.font="27px serif";ctx.textAlign="center";ctx.fillText("👻",a.x,a.y+8)});
+drawPlayer();
+}
+function loop(){
+if(!running)return;
+let speed=4.2;
+if(keys.left)player.x-=speed;if(keys.right)player.x+=speed;
+player.x=Math.max(20,Math.min(W-20,player.x));
+items.forEach(a=>a.y+=a.s);enemies.forEach(a=>a.y+=a.s);
+items=items.filter(a=>{if(Math.hypot(a.x-player.x,a.y-player.y)<28){score+=10;tone(740,.08);spawnItem();if(score>=level*100){level++;tone(900,.2);spawnEnemy()}updateHud();return false}if(a.y>H+20){spawnItem();return false}return true});
+enemies=enemies.filter(a=>{if(Math.hypot(a.x-player.x,a.y-player.y)<29){lives--;tone(130,.2);updateHud();if(lives<=0){finish();return false}return false}if(a.y>H+20){spawnEnemy();return false}return true});
+draw();requestAnimationFrame(loop);
+}
+function finish(){running=false;best=Math.max(best,score);localStorage.setItem("covameigaBest",best);document.getElementById("final").textContent="Has conseguido "+score+" puntos. Tu récord es "+best+" puntos. ¡La magia te espera de nuevo!";over.classList.remove("hidden");tone(180,.4)}
+function spell(){if(!running)return;tone(950,.15);enemies=enemies.filter(a=>Math.hypot(a.x-player.x,a.y-player.y)>150)}
+document.getElementById("start").onclick=start;
+document.getElementById("again").onclick=start;
+document.getElementById("sound").onclick=()=>{sound=!sound;document.getElementById("sound").textContent=sound?"🔊 Sonido activado":"🔇 Sonido desactivado";tone(600)};
+document.getElementById("magic").addEventListener("pointerdown",e=>{e.preventDefault();spell()});
+function bind(id,key){let b=document.getElementById(id);b.addEventListener("pointerdown",e=>{e.preventDefault();keys[key]=true});["pointerup","pointerleave","pointercancel"].forEach(ev=>b.addEventListener(ev,()=>keys[key]=false))}
+bind("left","left");bind("right","right");
+window.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="a")keys.left=true;if(e.key==="ArrowRight"||e.key==="d")keys.right=true;if(e.code==="Space")spell()});
+window.addEventListener("keyup",e=>{if(e.key==="ArrowLeft"||e.key==="a")keys.left=false;if(e.key==="ArrowRight"||e.key==="d")keys.right=false});
+draw();
+</script>
+</body>
+</html>
